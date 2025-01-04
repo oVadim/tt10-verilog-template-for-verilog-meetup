@@ -1,15 +1,15 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
 # Tiny Tapeout Verilog Project Template
-*A variant for the Verilog Meetup community*
+A variant for the Verilog Meetup community
 
 ![The corresponding FPGA board setup](https://github.com/yuri-panchul/tt10-verilog-template-for-verilog-meetup/blob/main/docs/fpga_board_setup.png)
 
-This template has the following changes on the top of the base *tt10-verilog-template*.
+This template has the following changes on the top of the base `tt10-verilog-template`.
 
 1. It instantiates [hackathon_top](https://github.com/yuri-panchul/basics-graphics-music/blob/main/labs/9_events/2025_hackathon/9_full_demo/hackathon_top.sv)
 module inside [project.v](https://github.com/yuri-panchul/tt10-verilog-template-for-verilog-meetup/blob/main/src/project.v).
-*hackathon_top* is used to abstract FPGA boards in [BGM a.k.a. basics-graphics-music](https://github.com/yuri-panchul/basics-graphics-music/tree/main) project.
+`hackathon_top` is used to abstract FPGA boards in [BGM a.k.a. basics-graphics-music](https://github.com/yuri-panchul/basics-graphics-music/tree/main) project.
 
 2. Instantiates and adds glue logic for a [controller of the TM1638 board interface](https://github.com/yuri-panchul/basics-graphics-music/blob/main/peripherals/tm1638_board.sv) that features 8 buttons, 8 LEDs and 8-digit 7-segment indicator.
 This peripheral board is used in BGM project as a peripheral for FPGA boards that have insufficient number of LEDs/buttons/7-segment digits for the lab examples in BGM package.
@@ -19,7 +19,7 @@ used in [TT10 Demoscene](https://tinytapeout.com/competitions/demoscene-tt10/) p
 
 4. Add some code to bypass Python-based cocotb testbench and do all verification in SystemVerilog.
 
-5. Add hooks to the documentation and other text files to make use of the template easier. Just grep for *TODO*.
+5. Add hooks to the documentation and other text files to make use of the template easier. Just grep for `TODO`.
 
 Below is the original text from Tiny Tapeout website.
 
