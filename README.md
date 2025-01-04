@@ -1,6 +1,7 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
-# Tiny Tapeout Verilog Project Template. A variant for the Verilog Meetup community.
+# Tiny Tapeout Verilog Project Template
+*A variant for the Verilog Meetup community*
 
 ![The corresponding FPGA board setup](https://github.com/yuri-panchul/tt10-verilog-template-for-verilog-meetup/blob/main/docs/fpga_board_setup.png)
 
