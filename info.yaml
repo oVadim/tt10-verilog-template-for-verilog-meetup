@@ -19,6 +19,7 @@ project:
   source_files:
     - "config.svh"
     - "hackathon_top.sv"
+    - "lab_specific_board_config.svh"
     - "project.sv"
     - "seven_segment_display.sv"
     - "strobe_gen.sv"
