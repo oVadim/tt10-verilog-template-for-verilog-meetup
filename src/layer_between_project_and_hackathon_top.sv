@@ -8,6 +8,7 @@ module layer_between_project_and_hackathon_top
     output       tm1638_clk,
     output       tm1638_stb,
     inout        tm1638_dio,
+    output       tm1638_dio_oe,
 
     output       vga_hsync,
     output       vga_vsync,
@@ -69,22 +70,23 @@ module layer_between_project_and_hackathon_top
 
     tm1638_board_controller
     # (
-        .clk_mhz  ( clk_mhz    ),
-        .w_digit  ( 8          ),
-        .w_seg    ( 8          )
+        .clk_mhz     ( clk_mhz       ),
+        .w_digit     ( 8             ),
+        .w_seg       ( 8             )
     )
     i_tm1638
     (
-        .clk      ( clock      ),
-        .rst      ( reset      ),
-        .hgfedcba ,
-        .digit    ,
-        .ledr     ( led        ),
-        .keys     ( key        ),
+        .clk         ( clock         ),
+        .rst         ( reset         ),
+        .hgfedcba    ,
+        .digit       ,
+        .ledr        ( led           ),
+        .keys        ( key           ),
 
-        .sio_clk  ( tm1638_clk ),
-        .sio_stb  ( tm1638_stb ),
-        .sio_data ( tm1638_dio )
+        .sio_clk     ( tm1638_clk    ),
+        .sio_stb     ( tm1638_stb    ),
+        .sio_data    ( tm1638_dio    ),
+        .sio_data_oe ( tm1638_dio_oe )
     );
 
     //------------------------------------------------------------------------
