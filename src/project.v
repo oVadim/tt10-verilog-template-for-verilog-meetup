@@ -25,4 +25,24 @@ module tt_um_verilog_meetup_template_project_TODO
   // List all unused inputs to prevent warnings
   wire _unused = & { ena, clk, rst_n, 1'b0 };
 
+  uo[0]: "VGA red [1]"
+  uo[1]: "VGA green [1]"
+  uo[2]: "VGA blue [1]"
+  uo[3]: "VGA vsync"
+  uo[4]: "VGA red [0]"
+  uo[5]: "VGA green [0]"
+  uo[6]: "VGA blue [0]"
+  uo[7]: "VGA hsync"
+
+  # Bidirectional pins
+  uio[0]: ""
+  uio[1]: ""
+  uio[2]: ""
+  uio[3]: ""
+  uio[4]: "output sticky_failure"
+  uio[5]: "TM1638 inout dio"
+  uio[6]: "TM1638 output clk"
+  uio[7]: "TM1638 output stb"
+
+
 endmodule
