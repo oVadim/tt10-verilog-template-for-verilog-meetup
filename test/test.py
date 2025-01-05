@@ -25,7 +25,7 @@ async def test_project(dut):
 
     dut._log.info("Test project behavior")
 
-    # Wait for a large number of clock cycles
+    # Wait for a number of clock cycles
     await ClockCycles(dut.clk, 1000)
 
     # Check there is no sticky failure so far
