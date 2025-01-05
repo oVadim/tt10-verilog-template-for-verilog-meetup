@@ -51,7 +51,7 @@ module tt_um_verilog_meetup_template_project_TODO
 
     assign uio_oe  [7:6] = '1;
 
-    wire   tm1638_dio    = uio_in [5];
+    assign tm1638_dio    = uio_in [5];
     assign uio_out [5]   = tm1638_dio;
     assign uio_oe  [5]   = tm1638_dio_oe;
 
@@ -75,6 +75,6 @@ module tt_um_verilog_meetup_template_project_TODO
     //------------------------------------------------------------------------
 
     // List all unused inputs to prevent warnings
-    wire _unused = & { ena, ui_in, uio_in [7:6] uio_in [4:0], 1'b0 };
+    wire _unused = & { ena, ui_in, uio_in [7:6], uio_in [4:0], 1'b0 };
 
 endmodule
