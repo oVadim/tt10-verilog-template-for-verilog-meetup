@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2024 Tiny Tapeout and Yuri Panchul / Verilog Meetup
+ * Copyright (c) 2024 Tiny Tapeout and Verilog Meetup
  * SPDX-License-Identifier: Apache-2.0
  */
 
 `default_nettype none
 
-module tt_um_example
+module tt_um_verilog_meetup_template_project_TODO
 (
     input  [7:0] ui_in,    // Dedicated inputs
     output [7:0] uo_out,   // Dedicated outputs

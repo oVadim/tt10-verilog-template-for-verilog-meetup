@@ -11,15 +11,16 @@ This template has the following changes on the top of the base `tt10-verilog-tem
 module inside [project.v](https://github.com/yuri-panchul/tt10-verilog-template-for-verilog-meetup/blob/main/src/project.v).
 `hackathon_top` is used to abstract FPGA boards in [BGM a.k.a. basics-graphics-music](https://github.com/yuri-panchul/basics-graphics-music/tree/main) project.
 
-2. Instantiates and adds glue logic for a [controller of the TM1638 board interface](https://github.com/yuri-panchul/basics-graphics-music/blob/main/peripherals/tm1638_board.sv) that features 8 buttons, 8 LEDs and 8-digit 7-segment indicator.
-This peripheral board is used in BGM project as a peripheral for FPGA boards that have insufficient number of LEDs/buttons/7-segment digits for the lab examples in BGM package.
+2. Instantiates and adds glue logic for the [controller of the TM1638 board interface](https://github.com/yuri-panchul/basics-graphics-music/blob/main/peripherals/tm1638_board.sv).
+This peripheral board features 8 buttons, 8 LEDs and 8-digit 7-segment indicator.
+It is used in BGM project as an add-on for FPGA boards that have insufficient number of LEDs/buttons/7-segment digits for the lab examples in BGM package.
 
 3. Adds glue logic to make the design compatible with [Tiny VGA](https://github.com/mole99/tiny-vga)
 used in [TT10 Demoscene](https://tinytapeout.com/competitions/demoscene-tt10/) projects.
 
-4. Add some code to bypass Python-based cocotb testbench and do all verification in SystemVerilog.
+4. Adds some code to bypass Python-based cocotb testbench and do all verification in SystemVerilog.
 
-5. Add hooks to the documentation and other text files to make use of the template easier. Just grep for `TODO`.
+5. Adds hooks to the documentation and other text files to make use of the template easier. Just grep for `TODO`.
 
 Below is the original text from Tiny Tapeout website.
 
