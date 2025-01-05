@@ -29,4 +29,4 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1000)
 
     # Check there is no sticky failure so far
-    assert ! ((dut.uio_out.value >> 4) & 1);
+    assert not ((dut.uio_out.value >> 4) & 1);
