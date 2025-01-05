@@ -20,7 +20,7 @@ project:
     - "config.svh"
     - "hackathon_top.sv"
     - "lab_specific_board_config.svh"
-    - "project.v"
+    - "project.sv"
     - "seven_segment_display.sv"
     - "strobe_gen.sv"
     - "tm1638_board.sv"
