@@ -26,7 +26,7 @@ project:
     - "tm1638_board.sv"
     - "tm1638_registers.sv"
     - "vga.sv"
-    # TODO - add your files if necessary
+    # TODO: add SystemVerilog files if necessary
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:

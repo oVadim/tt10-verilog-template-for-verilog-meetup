@@ -5,7 +5,22 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
+
+PROJECT_SOURCES =             \
+                              \
+    strobe_gen.sv             \
+    seven_segment_display.sv  \
+                              \
+    hackathon_top.sv          \
+                              \
+    tm1638_registers.sv       \
+    tm1638_board.sv           \
+                              \
+    vga.sv                    \
+                              \
+    project.v                 \
+
+    # TODO: add SystemVerilog files if necessary
 
 ifneq ($(GATES),yes)
 
