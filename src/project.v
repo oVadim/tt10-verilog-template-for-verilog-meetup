@@ -17,32 +17,64 @@ module tt_um_verilog_meetup_template_project_TODO
     input        rst_n     // reset_n - low to reset
 );
 
-  // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
-  assign uio_out = 0;
-  assign uio_oe  = 0;
+    //------------------------------------------------------------------------
 
-  // List all unused inputs to prevent warnings
-  wire _unused = & { ena, clk, rst_n, 1'b0 };
+    wire       tm1638_clk;
+    wire       tm1638_stb;
+    wire       tm1638_dio;
+    wire       tm1638_dio_oe;
 
-  uo[0]: "VGA red [1]"
-  uo[1]: "VGA green [1]"
-  uo[2]: "VGA blue [1]"
-  uo[3]: "VGA vsync"
-  uo[4]: "VGA red [0]"
-  uo[5]: "VGA green [0]"
-  uo[6]: "VGA blue [0]"
-  uo[7]: "VGA hsync"
+    wire       vga_hsync;
+    wire       vga_vsync;
 
-  # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
-  uio[4]: "output sticky_failure"
-  uio[5]: "TM1638 inout dio"
-  uio[6]: "TM1638 output clk"
-  uio[7]: "TM1638 output stb"
+    wire [1:0] vga_red;
+    wire [1:0] vga_green;
+    wire [1:0] vga_blue;
 
+    wire       sticky_failure;
+
+    //------------------------------------------------------------------------
+
+    layer_between_project_and_hackathon_top i_layer
+    (
+        .clock (   clk   ),
+        .reset ( ~ rst_n ),
+        .*
+    );
+
+    //------------------------------------------------------------------------
+
+    // All output pins must be assigned. If not used, assign to 0.
+
+    assign uio_out [7]   = tm1638_stb;
+    assign uio_out [6]   = tm1638_clk;
+
+    assign uio_oe  [7:6] = '1;
+
+    wire   tm1638_dio    = uio_in [5];
+    assign uio_out [5]   = tm1638_dio;
+    assign uio_oe  [5]   = tm1638_dio_oe;
+
+    assign uio_out [4]   = sticky_failure;
+    assign uio_oe  [4]   = '1;
+
+    assign uio_out [3:0] = '0;
+    assign uio_oe  [3:0] = '0;
+
+    //------------------------------------------------------------------------
+
+    assign uo_out  [0]   = vga_red   [1];
+    assign uo_out  [1]   = vga_green [1];
+    assign uo_out  [2]   = vga_blue  [1];
+    assign uo_out  [3]   = vga_vsync    ;
+    assign uo_out  [4]   = vga_red   [0];
+    assign uo_out  [5]   = vga_green [0];
+    assign uo_out  [6]   = vga_blue  [0];
+    assign uo_out  [7]   = vga_hsync    ;
+
+    //------------------------------------------------------------------------
+
+    // List all unused inputs to prevent warnings
+    wire _unused = & { ena, ui_in, uio_in [7:6] uio_in [4:0], 1'b0 };
 
 endmodule

@@ -36,7 +36,8 @@ module tm1638_board_controller
     `endif
     output                        sio_clk,
     output logic                  sio_stb,
-    inout                         sio_data
+    inout                         sio_data,
+    output                        sio_data_oe
 );
 
     localparam
@@ -94,6 +95,8 @@ module tm1638_board_controller
     ////////////// TM1563 dio //////////////////
     assign sio_data = tm_rw ? dio_out : 'z;
     assign dio_in   = sio_data;
+
+    assign sio_data_oe = tm_rw;
 
     tm1638_sio
     # (
