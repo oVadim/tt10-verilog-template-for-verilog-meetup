@@ -17,8 +17,42 @@ module tt_um_verilog_meetup_template_project_TODO
     input        rst_n     // reset_n - low to reset
 );
 
-    //------------------------------------------------------------------------
+    logic       tm1638_clk;
+    logic       tm1638_stb;
 
+    logic       tm1638_dio_in;
+    logic       tm1638_dio_out;
+    logic       tm1638_dio_out_en;
+
+    logic       vga_hsync;
+    logic       vga_vsync;
+
+    logic [1:0] vga_red;
+    logic [1:0] vga_green;
+    logic [1:0] vga_blue;
+
+    logic       sticky_failure;
+
+    always @ (posedge clk)
+    begin
+        tm1638_clk <= { 2 { tm1638_dio_in } };
+        tm1638_stb <= tm1638_dio_in;
+
+        tm1638_dio_out <= tm1638_dio_in;
+        tm1638_dio_out_en <= tm1638_dio_in;
+
+        vga_hsync <= tm1638_dio_in;
+        vga_vsync <= tm1638_dio_in;
+
+        vga_red <= { 2 { tm1638_dio_in } };
+        vga_green <= { 2 { tm1638_dio_in } };
+        vga_blue <= { 2 { tm1638_dio_in } };
+
+        sticky_failure <= tm1638_dio_in;
+    end
+
+    //------------------------------------------------------------------------
+/*
     wire       tm1638_clk;
     wire       tm1638_stb;
 
@@ -43,7 +77,7 @@ module tt_um_verilog_meetup_template_project_TODO
         .reset ( ~ rst_n ),
         .*
     );
-
+*/
     //------------------------------------------------------------------------
 
     // All output pins must be assigned. If not used, assign to 0.
