@@ -90,12 +90,21 @@ module tm1638_board_controller
     wire   [7:0] tm_out;
 
     ///////////// RESET synhronizer ////////////
+
+    `ifdef NO_RESET_SYNCHRONIZER
+
+    wire reset_syn2 = rst;
+
+    `else
+
     logic             reset_syn1;
-    logic             reset_syn2 = 0;
+    logic             reset_syn2 = 0; // WTF? TODO: REMOVE
     always @(posedge clk) begin
         reset_syn1 <= rst;
         reset_syn2 <= reset_syn1;
     end
+
+    `endif
 
     ////////////// TM1563 dio //////////////////
 
