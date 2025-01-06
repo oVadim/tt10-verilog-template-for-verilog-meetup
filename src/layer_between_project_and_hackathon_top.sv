@@ -7,8 +7,10 @@ module layer_between_project_and_hackathon_top
 
     output       tm1638_clk,
     output       tm1638_stb,
-    inout        tm1638_dio,
-    output       tm1638_dio_oe,
+
+    input        tm1638_dio_in,
+    output       tm1638_dio_out,
+    output       tm1638_dio_out_en,
 
     output       vga_hsync,
     output       vga_vsync,
@@ -70,23 +72,25 @@ module layer_between_project_and_hackathon_top
 
     tm1638_board_controller
     # (
-        .clk_mhz     ( clk_mhz       ),
-        .w_digit     ( 8             ),
-        .w_seg       ( 8             )
+        .clk_mhz          ( clk_mhz           ),
+        .w_digit          ( 8                 ),
+        .w_seg            ( 8                 )
     )
     i_tm1638
     (
-        .clk         ( clock         ),
-        .rst         ( reset         ),
-        .hgfedcba    ,
-        .digit       ,
-        .ledr        ( led           ),
-        .keys        ( key           ),
+        .clk              ( clock             ),
+        .rst              ( reset             ),
+        .hgfedcba         ,
+        .digit            ,
+        .ledr             ( led               ),
+        .keys             ( key               ),
 
-        .sio_clk     ( tm1638_clk    ),
-        .sio_stb     ( tm1638_stb    ),
-        .sio_data    ( tm1638_dio    ),
-        .sio_data_oe ( tm1638_dio_oe )
+        .sio_clk          ( tm1638_clk        ),
+        .sio_stb          ( tm1638_stb        ),
+
+        .sio_data_in      ( tm1638_dio_in     ),
+        .sio_data_out     ( tm1638_dio_out    ),
+        .sio_data_out_en  ( tm1638_dio_out_en )
     );
 
     //------------------------------------------------------------------------
@@ -96,23 +100,23 @@ module layer_between_project_and_hackathon_top
 
     vga
     # (
-        .CLK_MHZ    ( clk_mhz   ),
-        .PIXEL_MHZ  ( clk_mhz   )
+        .CLK_MHZ     ( clk_mhz   ),
+        .PIXEL_MHZ   ( clk_mhz   )
     )
     i_vga
     (
-        .clk        ( clock     ),
-        .rst        ( reset     ),
+        .clk         ( clock     ),
+        .rst         ( reset     ),
+
+        .hsync       ( vga_hsync ),
+        .vsync       ( vga_vsync ),
         
-        .hsync      ( vga_hsync ),
-        .vsync      ( vga_vsync ),
+        .display_on  ,
         
-        .display_on ,
-        
-        .hpos       ,
-        .vpos       ,
-        
-        .pixel_clk  (           )
+        .hpos        ,
+        .vpos        ,
+
+        .pixel_clk   (           )
     );
 
 endmodule
