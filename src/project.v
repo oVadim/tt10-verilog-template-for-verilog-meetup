@@ -17,6 +17,10 @@ module tt_um_verilog_meetup_template_project_TODO
     input        rst_n     // reset_n - low to reset
 );
 
+    /*
+
+    Dummy
+
     logic       tm1638_clk;
     logic       tm1638_stb;
 
@@ -50,9 +54,10 @@ module tt_um_verilog_meetup_template_project_TODO
 
         sticky_failure <= tm1638_dio_in;
     end
+    */
 
     //------------------------------------------------------------------------
-/*
+
     wire       tm1638_clk;
     wire       tm1638_stb;
 
@@ -77,7 +82,7 @@ module tt_um_verilog_meetup_template_project_TODO
         .reset ( ~ rst_n ),
         .*
     );
-*/
+
     //------------------------------------------------------------------------
 
     // All output pins must be assigned. If not used, assign to 0.
