@@ -6,7 +6,11 @@ module hackathon_top
     input  logic       clock,
     input  logic       reset,
 
+    // The msb-s of the key may not be used.
+    // verilator lint_save
+    // verilator lint_off UNUSEDSIGNAL
     input  logic [7:0] key,
+    // verilator lint_restore
     output logic [7:0] led,
 
     // A dynamic seven-segment display
