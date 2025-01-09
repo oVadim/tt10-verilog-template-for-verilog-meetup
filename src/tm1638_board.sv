@@ -188,6 +188,8 @@ module tm1638_board_controller
             keys             <= '0;
             led_on           <= '0;
 
+            tm_latch         <= 1'b0;
+            tm_in            <= '0;
 
         end else begin
 
