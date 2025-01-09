@@ -180,13 +180,14 @@ module tm1638_board_controller
     always @(posedge clk)
     begin
         if (reset_syn2) begin
-            instruction_step <= 'b0;
+            instruction_step <= '0;
             sio_stb          <= HIGH;
             tm_rw            <= HIGH;
 
-            counter          <= 'd0;
-            keys             <= 'b0;
-            led_on           <= 'b0;
+            counter          <= '0;
+            keys             <= '0;
+            led_on           <= '0;
+
 
         end else begin
 
@@ -407,20 +408,20 @@ module tm1638_sio
     begin
         if (rst)
         begin
-            cur_state <= S_IDLE;
-            sclk_q <= 0;
-            ctr_q <= 0;
-            dio_out <= 0;
-            data_q <= 0;
-            data_out_q <= 0;
+            cur_state  <= S_IDLE;
+            sclk_q     <= '0;
+            ctr_q      <= '0;
+            dio_out    <= '0;
+            data_q     <= '0;
+            data_out_q <= '0;
         end
         else
         begin
-            cur_state <= next_state;
-            sclk_q <= sclk_d;
-            ctr_q <= ctr_d;
-            dio_out <= dio_out_d;
-            data_q <= data_d;
+            cur_state  <= next_state;
+            sclk_q     <= sclk_d;
+            ctr_q      <= ctr_d;
+            dio_out    <= dio_out_d;
+            data_q     <= data_d;
             data_out_q <= data_out_d;
         end
     end
