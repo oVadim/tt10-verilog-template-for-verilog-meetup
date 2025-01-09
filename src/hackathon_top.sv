@@ -61,7 +61,7 @@ module hackathon_top
     (
         .clk      ( clock    ),
         .rst      ( reset    ),
-        .number   ( {counter, counter, counter, counter} ),
+        .number   ( { 24'd0 , counter } ),
         .dots     ( 8'd0     ),
         .abcdefgh ( abcdefgh ),
         .digit    ( digit    )
