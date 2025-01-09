@@ -95,12 +95,8 @@ module layer_between_project_and_hackathon_top
 
     //------------------------------------------------------------------------
 
-    // The msb-s of the vpos and hpos may not be used.
-    // verilator lint_save
-    // verilator lint_off UNUSEDSIGNAL
     wire [9:0] hpos; assign x = hpos [$left (x):0];
     wire [9:0] vpos; assign y = vpos [$left (y):0];
-    // verilator lint_restore
     wire unused_pixel_clk;
 
     vga
@@ -115,9 +111,9 @@ module layer_between_project_and_hackathon_top
 
         .hsync       ( vga_hsync ),
         .vsync       ( vga_vsync ),
-        
+
         .display_on  ,
-        
+
         .hpos        ,
         .vpos        ,
 

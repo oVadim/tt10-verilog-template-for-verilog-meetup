@@ -87,12 +87,7 @@ module tm1638_board_controller
     logic        tm_latch;
     wire         busy;
     logic  [7:0] tm_in;
-
-    // Bits of signal are not used: 'tm_out'[7:5,3:1]
-    // verilator lint_save
-    // verilator lint_off UNUSEDSIGNAL
     wire   [7:0] tm_out;
-    // verilator lint_restore
 
     ///////////// RESET synhronizer ////////////
 
