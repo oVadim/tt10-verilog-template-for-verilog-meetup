@@ -56,7 +56,7 @@ module tm1638_registers
         for (i = 0; i < w_digit; i++)
         begin : gen_r_hex
 
-            always @( posedge clk or posedge rst)
+            always @( posedge clk)
                 if (rst)
                     r_hex[i] <= r_init ? init76543210[i] : '0;
                 else if (digit [i])

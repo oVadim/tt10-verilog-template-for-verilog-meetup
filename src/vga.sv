@@ -77,7 +77,7 @@ module vga
 
     assign pixel_clk = (CLK_MHZ >= 2 * PIXEL_MHZ) ? clk_en : clk;
 
-    always_ff @ (posedge clk or posedge rst)
+    always_ff @ (posedge clk)
     begin
         if (rst)
         begin
@@ -101,7 +101,7 @@ module vga
 
     // Making all outputs registered
 
-    always_ff @ (posedge clk or posedge rst)
+    always_ff @ (posedge clk)
     begin
         if (rst)
         begin

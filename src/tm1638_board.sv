@@ -182,7 +182,7 @@ module tm1638_board_controller
 
     // controller FSM
 
-    always @(posedge clk or posedge reset_syn2)
+    always @(posedge clk)
     begin
         if (reset_syn2) begin
             instruction_step <= 'b0;
