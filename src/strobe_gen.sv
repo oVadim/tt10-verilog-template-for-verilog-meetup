@@ -29,7 +29,7 @@ module strobe_gen
 
             logic [w_cnt - 1:0] cnt;
 
-            always_ff @ (posedge clk or posedge rst)
+            always_ff @ (posedge clk)
                 if (rst)
                 begin
                     cnt    <= '0;

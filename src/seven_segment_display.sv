@@ -52,7 +52,7 @@ module seven_segment_display
     logic [w_cnt - 1:0] cnt;
 
 
-    always_ff @ (posedge clk or posedge rst)
+    always_ff @ (posedge clk)
         if (rst)
             cnt <= '0;
         else if (cnt == cnt_max)
@@ -67,7 +67,7 @@ module seven_segment_display
     wire enable = cnt == cnt_max;
 
 
-    always_ff @ (posedge clk or posedge rst)
+    always_ff @ (posedge clk)
         if (rst)
             r_number <= '0;
         else if (enable)
@@ -78,7 +78,7 @@ module seven_segment_display
     logic [w_index - 1:0] index;
 
 
-    always_ff @ (posedge clk or posedge rst)
+    always_ff @ (posedge clk)
         if (rst)
             index <= '0;
         else if (cnt[15:0] == 16'b0) // Perhaps a check is needed that w_cnt >= 16
@@ -86,7 +86,7 @@ module seven_segment_display
                 w_index' (0) : index + 1'd1);
 
     // Outputs are combinational like before
-    assign abcdefgh = dig_to_seg (r_number [index * 4 +: 4]) ^ dots [index];
+    assign abcdefgh = dig_to_seg (r_number [index * 4 +: 4]) ^ {8{dots [index]}};
     assign digit    = w_digit' (1'b1) << index;
 
 endmodule

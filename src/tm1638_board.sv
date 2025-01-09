@@ -129,7 +129,6 @@ module tm1638_board_controller
         .data_latch ( tm_latch   ),
         .data_in    ( tm_in      ),
         .data_out   ( tm_out     ),
-        .rw         ( tm_rw      ),
 
         .busy       ( busy       ),
 
@@ -178,16 +177,19 @@ module tm1638_board_controller
 
     // controller FSM
 
-    always @(posedge clk or posedge reset_syn2)
+    always @(posedge clk)
     begin
         if (reset_syn2) begin
-            instruction_step <= 'b0;
+            instruction_step <= '0;
             sio_stb          <= HIGH;
             tm_rw            <= HIGH;
 
-            counter          <= 'd0;
-            keys             <= 'b0;
-            led_on           <= 'b0;
+            counter          <= '0;
+            keys             <= '0;
+            led_on           <= '0;
+
+            tm_latch         <= 1'b0;
+            tm_in            <= '0;
 
         end else begin
 
@@ -316,7 +318,6 @@ module tm1638_sio
     input          data_latch,
     input  [7:0]   data_in,
     output [7:0]   data_out,
-    input          rw,
 
     output         busy,
 
@@ -409,20 +410,20 @@ module tm1638_sio
     begin
         if (rst)
         begin
-            cur_state <= S_IDLE;
-            sclk_q <= 0;
-            ctr_q <= 0;
-            dio_out <= 0;
-            data_q <= 0;
-            data_out_q <= 0;
+            cur_state  <= S_IDLE;
+            sclk_q     <= '0;
+            ctr_q      <= '0;
+            dio_out    <= '0;
+            data_q     <= '0;
+            data_out_q <= '0;
         end
         else
         begin
-            cur_state <= next_state;
-            sclk_q <= sclk_d;
-            ctr_q <= ctr_d;
-            dio_out <= dio_out_d;
-            data_q <= data_d;
+            cur_state  <= next_state;
+            sclk_q     <= sclk_d;
+            ctr_q      <= ctr_d;
+            dio_out    <= dio_out_d;
+            data_q     <= data_d;
             data_out_q <= data_out_d;
         end
     end

@@ -97,6 +97,7 @@ module layer_between_project_and_hackathon_top
 
     wire [9:0] hpos; assign x = hpos [$left (x):0];
     wire [9:0] vpos; assign y = vpos [$left (y):0];
+    wire unused_pixel_clk;
 
     vga
     # (
@@ -110,13 +111,13 @@ module layer_between_project_and_hackathon_top
 
         .hsync       ( vga_hsync ),
         .vsync       ( vga_vsync ),
-        
+
         .display_on  ,
-        
+
         .hpos        ,
         .vpos        ,
 
-        .pixel_clk   (           )
+        .pixel_clk   ( unused_pixel_clk )
     );
 
 endmodule

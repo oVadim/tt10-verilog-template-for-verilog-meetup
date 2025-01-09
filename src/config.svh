@@ -3,6 +3,9 @@
 
 `timescale 1 ns / 1 ps
 
+// Don't use reset synchronizer in the tm1638_board_controller module
+`define NO_RESET_SYNCHRONIZER
+
 `ifdef ALTERA_RESERVED_QIS
     `default_nettype none
 `endif
