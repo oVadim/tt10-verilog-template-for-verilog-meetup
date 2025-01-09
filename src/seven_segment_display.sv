@@ -86,7 +86,7 @@ module seven_segment_display
                 w_index' (0) : index + 1'd1);
 
     // Outputs are combinational like before
-    assign abcdefgh = dig_to_seg (r_number [index * 4 +: 4]) ^ dots [index];
+    assign abcdefgh = dig_to_seg (r_number [index * 4 +: 4]) ^ {8{dots [index]}};
     assign digit    = w_digit' (1'b1) << index;
 
 endmodule

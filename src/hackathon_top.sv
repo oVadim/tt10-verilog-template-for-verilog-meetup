@@ -39,7 +39,7 @@ module hackathon_top
         if (reset)
             counter <= 0;
         else if (pulse)
-            counter <= counter + 1 + key [0] - key [1];
+            counter <= counter + 8'b1 + 8'(key[0]) - 8'(key[1]);
 
     always_comb
     begin
@@ -49,7 +49,7 @@ module hackathon_top
             & y > 100 + counter     & y < 200 + counter )
         begin
             red   = 30;
-            blue  = key [1] ? x : 0;
+            blue  = key[1] ? x[4:0] : '0;
         end
 
         if ((x - counter) ** 2 + y ** 2 < 100 ** 2)
@@ -65,7 +65,7 @@ module hackathon_top
     (
         .clk      ( clock    ),
         .rst      ( reset    ),
-        .number   ( counter  ),
+        .number   ( {counter, counter, counter, counter} ),
         .dots     ( 0        ),
         .abcdefgh ( abcdefgh ),
         .digit    ( digit    )

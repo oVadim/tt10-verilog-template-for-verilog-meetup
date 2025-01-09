@@ -56,10 +56,10 @@ module vga
     begin
         if (hpos == H_MAX)
         begin
-            d_hpos = 1'd0;
+            d_hpos = '0;
 
             if (vpos == V_MAX)
-                d_vpos = 1'd0;
+                d_vpos = '0;
             else
                 d_vpos = vpos + 1'd1;
         end
@@ -81,14 +81,14 @@ module vga
     begin
         if (rst)
         begin
-            clk_en_cnt <= 3'b0;
+            clk_en_cnt <= 4'b0;
             clk_en <= 1'b0;
         end
         else
         begin
-            if (clk_en_cnt == (CLK_MHZ / PIXEL_MHZ) - 1)
+            if (clk_en_cnt == 4'((CLK_MHZ / PIXEL_MHZ) - 1))
             begin
-                clk_en_cnt <= 3'b0;
+                clk_en_cnt <= 4'b0;
                 clk_en <= 1'b1;
             end
             else
@@ -108,8 +108,8 @@ module vga
             hsync       <= 1'b0;
             vsync       <= 1'b0;
             display_on  <= 1'b0;
-            hpos        <= 1'b0;
-            vpos        <= 1'b0;
+            hpos        <= '0;
+            vpos        <= '0;
         end
         else if (clk_en)
         begin
