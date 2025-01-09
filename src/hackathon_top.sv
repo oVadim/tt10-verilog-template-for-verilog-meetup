@@ -52,7 +52,7 @@ module hackathon_top
             blue  = key[1] ? x[4:0] : '0;
         end
 
-        if ((x - counter) ** 2 + y ** 2 < 100 ** 2)
+        if ((x - counter) * (x - counter) + y * y < 100 ** 2)
             blue = 30;
 
         if (x * y > 100 ** 2)
