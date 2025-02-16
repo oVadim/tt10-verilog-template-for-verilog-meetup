@@ -24,45 +24,241 @@ module hackathon_top
     output logic [4:0] blue
 );
 
-    logic pulse;
+    //------------------------------------------------------------------------
+    //
+    //  Screen, object and color constants
 
-    strobe_gen # (.clk_mhz (27), .strobe_hz (30))
-    i_strobe_gen (clock, reset, pulse);
+    localparam screen_width  = 480,
+               screen_height = 272,
 
-    logic [7:0] counter;
+               wx            = 30,
+               wy            = 30,
 
-    always_ff @ (posedge clock)
-        if (reset)
-            counter <= 0;
-        else if (pulse)
-            counter <= counter + 8'b1 + 8'(key[0]) - 8'(key[1]);
+               start_0_x     = 0,
+               start_0_y     = screen_height     / 5,
+
+               start_1_x     = screen_width      / 2,
+               start_1_y     = screen_height * 4 / 5,
+
+               max_red       = 31,
+               max_green     = 63,
+               max_blue      = 31;
+
+    //------------------------------------------------------------------------
+    //
+    //  Pulse generator, 50 times a second
+
+    logic enable;
+
+    strobe_gen # (.clk_mhz (27), .strobe_hz (100))
+    i_strobe_gen (clock, reset, enable);
+
+    //------------------------------------------------------------------------
+    //
+    //  Finite State Machine (FSM) for the game
+
+    enum bit [2:0]
+    {
+        STATE_START = 0,
+        STATE_AIM   = 1,
+        STATE_SHOOT = 2,
+        STATE_WON   = 3,
+        STATE_LOST  = 4
+    }
+    state, new_state;
+
+    //------------------------------------------------------------------------
+
+    // Conditions to change the state - declarations
+
+    logic out_of_screen, collision, launch, timeout;
+
+    //------------------------------------------------------------------------
 
     always_comb
     begin
-        red = 0; green = 0; blue = 0;
+        new_state = state;
 
-        if (  x > 100 + counter * 2 & x < 150 + counter * 2
-            & y > 100 + counter     & y < 200 + counter )
-        begin
-            red   = 30;
-            blue  = key[1] ? x[4:0] : '0;
-        end
+        case (state)
 
-        if ((x - counter) * (x - counter) + y * y < 100 ** 2)
-            blue = 30;
+        STATE_START : new_state =                   STATE_AIM;
 
-        if (x * y > 100 ** 2)
-            green = 10;
+        STATE_AIM   : new_state =   out_of_screen ? STATE_LOST
+                                  : collision     ? STATE_WON
+                                  : launch        ? STATE_SHOOT
+                                  : timeout       ? STATE_SHOOT
+                                  :                 STATE_AIM;
+
+        STATE_SHOOT : new_state =   out_of_screen ? STATE_LOST
+                                  : collision     ? STATE_WON
+                                  :                 STATE_SHOOT;
+
+        STATE_WON   : new_state =   timeout       ? STATE_START
+                                  :                 STATE_WON;
+
+        STATE_LOST  : new_state =   timeout       ? STATE_START
+                                  :                 STATE_LOST;
+
+        endcase
     end
 
-    assign led = counter;
+    //------------------------------------------------------------------------
+
+    always_ff @ (posedge clock)
+        if (reset)
+            state <= STATE_START;
+        else if (enable)
+            state <= new_state;
+
+    //------------------------------------------------------------------------
+    //
+    //  Computing new object coordinates
+
+    logic [8:0] x0,  y0,  x1,  y1,
+                x0r, y0r, x1r, y1r;
+
+    wire left  = | key [6:1];
+    wire right =   key [0];
+
+    always_comb
+    begin
+        x0 = x0r;
+        y0 = y0r;
+        x1 = x1r;
+        y1 = y1r;
+
+        if (state == STATE_START)
+        begin
+            x0 = start_0_x;
+            y0 = start_0_y;
+            x1 = start_1_x;
+            y1 = start_1_y;
+        end
+        else
+        begin
+            x0 = x0 + 1;
+
+            if (state == STATE_SHOOT)
+            begin
+                x1 = x1 + right - left;
+                y1 = y1 - 1;
+            end
+        end
+    end
+
+    //------------------------------------------------------------------------
+    //
+    //  Updating object coordinates
+
+    always_ff @ (posedge clock)
+        if (reset)
+        begin
+            x0r <= 0;
+            y0r <= 0;
+            x1r <= 0;
+            y1r <= 0;
+        end
+        else if (enable)
+        begin
+            x0r <= x0;
+            y0r <= y0;
+            x1r <= x1;
+            y1r <= y1;
+        end
+
+    //------------------------------------------------------------------------
+    //
+    // Conditions to change the state - implementations
+
+    assign out_of_screen =   x0 == screen_width
+                           | x1 == 0
+                           | x1 == screen_width
+                           | y1 == 0;
+
+    assign collision = ~ (  x0 + wx <= x1
+                          | x1 + wx <= x0
+                          | y0 + wy <= y1
+                          | y1 + wy <= y0 );
+
+    assign launch = left | right;
+
+    //------------------------------------------------------------------------
+    //
+    // Timeout condition
+
+    logic [7:0] timer;
+
+    always_ff @ (posedge clock)
+        if (reset)
+            timer <= 0;
+        else if (state == STATE_START)
+            timer <= 200;
+        else if (state == STATE_SHOOT)
+            timer <= 100;
+        else if (enable)
+            timer <= timer - 1;
+
+    assign timeout = (timer == 0);
+
+    //------------------------------------------------------------------------
+    //
+    //  Determine pixel color
+
+    //------------------------------------------------------------------------
+
+    always_comb
+    begin
+        red   = 0;
+        green = 0;
+        blue  = 0;
+
+        case (state)
+
+        STATE_WON:
+        begin
+            red = max_red;
+        end
+
+        STATE_LOST:
+        begin
+            red   = max_red;
+            green = max_green;
+        end
+
+        default:
+        begin
+            if (  x >= x0 & x < x0 + wx
+                & y >= y0 & y < y0 + wy)
+            begin
+                blue = max_blue;
+            end
+
+            if (  x >= x1 & x < x1 + wx
+                & y >= y1 & y < y1 + wy)
+            begin
+                red = max_red;
+            end
+        end
+
+        endcase
+    end
+
+    //------------------------------------------------------------------------
+    //
+    //  Output to LED and 7-segment display
+
+    assign led = x1;
+
+    wire [31:0] number
+        = key [7] ? { 7'b0, x0, 7'b0, y0 }
+                  : { 7'b0, x1, 7'b0, y1 };
 
     seven_segment_display # (.w_digit (8)) i_7segment
     (
         .clk      ( clock    ),
         .rst      ( reset    ),
-        .number   ( { 24'd0 , counter } ),
-        .dots     ( 8'd0     ),
+        .number   ( number   ),
+        .dots     ( 0        ),
         .abcdefgh ( abcdefgh ),
         .digit    ( digit    )
     );
