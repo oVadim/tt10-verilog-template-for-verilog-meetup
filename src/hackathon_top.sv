@@ -57,15 +57,14 @@ module hackathon_top
     //
     //  Finite State Machine (FSM) for the game
 
-    enum logic [2:0]
-    {
-        STATE_START = 3'd0,
-        STATE_AIM   = 3'd1,
-        STATE_SHOOT = 3'd2,
-        STATE_WON   = 3'd3,
-        STATE_LOST  = 3'd4
-    }
-    state, new_state;
+    localparam [2:0]
+        STATE_START = 0,
+        STATE_AIM   = 1,
+        STATE_SHOOT = 2,
+        STATE_WON   = 3,
+        STATE_LOST  = 4;
+
+    logic [2:0] state, new_state;
 
     //------------------------------------------------------------------------
 
