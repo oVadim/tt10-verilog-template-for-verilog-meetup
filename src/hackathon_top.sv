@@ -57,7 +57,7 @@ module hackathon_top
     //
     //  Finite State Machine (FSM) for the game
 
-    enum bit [2:0]
+    enum logic [2:0]
     {
         STATE_START = 3'd0,
         STATE_AIM   = 3'd1,
@@ -212,6 +212,8 @@ module hackathon_top
         green = 0;
         blue  = 0;
 
+        // verilator lint_off CASEINCOMPLETE
+
         case (state)
 
         STATE_WON:
@@ -241,6 +243,8 @@ module hackathon_top
         end
 
         endcase
+
+        // verilator lint_on CASEINCOMPLETE
     end
 
     //------------------------------------------------------------------------
