@@ -31,6 +31,8 @@ module layer_between_project_and_hackathon_top
 
     //------------------------------------------------------------------------
 
+    wire slow_clock = clock;
+
     wire [7:0] key;
     wire [7:0] led;
 
@@ -50,25 +52,12 @@ module layer_between_project_and_hackathon_top
 
     //------------------------------------------------------------------------
 
-    wire display_on;
-
-    `define REDUCE_COLOR_TO_2_BITS(c)  \
-        (display_on ? { c [$left (c)], | c [$left (c) - 1:0] } : '0)
-
-    assign vga_red   = `REDUCE_COLOR_TO_2_BITS ( red   );
-    assign vga_green = `REDUCE_COLOR_TO_2_BITS ( green );
-    assign vga_blue  = `REDUCE_COLOR_TO_2_BITS ( blue  );
-
-    //------------------------------------------------------------------------
-
     hackathon_top i_hackathon_top (.*);
 
     //------------------------------------------------------------------------
 
     wire [7:0]  hgfedcba;
     `SWAP_BITS (hgfedcba, abcdefgh);
-
-    //------------------------------------------------------------------------
 
     tm1638_board_controller
     # (
@@ -95,29 +84,60 @@ module layer_between_project_and_hackathon_top
 
     //------------------------------------------------------------------------
 
+    wire hsync, vsync, display_on;
+
     wire [9:0] hpos; assign x = hpos [$left (x):0];
     wire [9:0] vpos; assign y = vpos [$left (y):0];
-    wire unused_pixel_clk;
+
+    wire pixel_clk;  // Unused because main clock is 25 MHz
 
     vga
     # (
-        .CLK_MHZ     ( clk_mhz   ),
-        .PIXEL_MHZ   ( clk_mhz   )
+        .CLK_MHZ     ( clk_mhz ),
+        .PIXEL_MHZ   ( clk_mhz )
     )
     i_vga
     (
-        .clk         ( clock     ),
-        .rst         ( reset     ),
+        .clk         ( clock   ),
+        .rst         ( reset   ),
 
-        .hsync       ( vga_hsync ),
-        .vsync       ( vga_vsync ),
+        .hsync       ,
+        .vsync       ,
 
         .display_on  ,
 
         .hpos        ,
         .vpos        ,
 
-        .pixel_clk   ( unused_pixel_clk )
+        .pixel_clk
     );
+
+    //------------------------------------------------------------------------
+
+    always_ff @ (posedge clock)
+        if (reset)
+        begin
+            vga_hsync <= 1'b0;
+            vga_vsync <= 1'b0;
+        end
+        else
+        begin
+            vga_hsync <= hsync;
+            vga_vsync <= vsync;
+        end
+
+    //------------------------------------------------------------------------
+
+    `define REDUCE_COLOR_TO_2_BITS(c)  \
+        (display_on ? { c [$left (c)], | c [$left (c) - 1:0] } : '0)
+
+    always_ff @ (posedge clock)
+    begin
+        vga_red   <= `REDUCE_COLOR_TO_2_BITS ( red   );
+        vga_green <= `REDUCE_COLOR_TO_2_BITS ( green );
+        vga_blue  <= `REDUCE_COLOR_TO_2_BITS ( blue  );
+    end
+
+    `undef REDUCE_COLOR_TO_2_BITS
 
 endmodule

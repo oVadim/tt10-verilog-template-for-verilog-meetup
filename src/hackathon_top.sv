@@ -4,6 +4,7 @@
 module hackathon_top
 (
     input  logic       clock,
+    input  logic       slow_clock,
     input  logic       reset,
 
     input  logic [7:0] key,
@@ -261,7 +262,7 @@ module hackathon_top
         .clk      ( clock    ),
         .rst      ( reset    ),
         .number   ( number   ),
-        .dots     ( '0       ),
+        .dots     ( '0       ),  // This syntax means "all 0s in the context"
         .abcdefgh ( abcdefgh ),
         .digit    ( digit    )
     );
