@@ -2,24 +2,24 @@
 
 module layer_between_project_and_hackathon_top
 (
-    input        clock,
-    input        reset,
+    input              clock,
+    input              reset,
 
-    output       tm1638_clk,
-    output       tm1638_stb,
+    output             tm1638_clk,
+    output             tm1638_stb,
 
-    input        tm1638_dio_in,
-    output       tm1638_dio_out,
-    output       tm1638_dio_out_en,
+    input              tm1638_dio_in,
+    output             tm1638_dio_out,
+    output             tm1638_dio_out_en,
 
-    output       vga_hsync,
-    output       vga_vsync,
+    output logic       vga_hsync,
+    output logic       vga_vsync,
 
-    output [1:0] vga_red,
-    output [1:0] vga_green,
-    output [1:0] vga_blue,
+    output logic [1:0] vga_red,
+    output logic [1:0] vga_green,
+    output logic [1:0] vga_blue,
 
-    output       sticky_failure
+    output             sticky_failure
 );
 
     //------------------------------------------------------------------------
